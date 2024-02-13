@@ -1,6 +1,6 @@
 _base_ = [
     '../_base_/models/pointpillars_hv_secfpn_kitti.py',
-    '../_base_/datasets/kitti-3d-3class.py',
+    '../_base_/datasets/donaset.py',
     '../_base_/schedules/cyclic-40e.py', '../_base_/default_runtime.py'
 ]
 
@@ -38,7 +38,7 @@ train_pipeline = [
         use_dim=4,
         backend_args=backend_args),
     dict(type='LoadAnnotations3D', with_bbox_3d=True, with_label_3d=True),
-    # dict(type='ObjectSample', db_sampler=db_sampler, use_ground_plane=True),
+    dict(type='ObjectSample', db_sampler=db_sampler, use_ground_plane=True),
     dict(type='RandomFlip3D', flip_ratio_bev_horizontal=0.5),
     dict(
         type='GlobalRotScaleTrans',

@@ -146,6 +146,30 @@ def create_groundtruth_database(dataset_class_name,
     print(f'Create GT Database of {dataset_class_name}')
     dataset_cfg = dict(
         type=dataset_class_name, data_root=data_path, ann_file=info_path)
+    if dataset_class_name == 'DonaSet':
+        backend_args = None
+        dataset_cfg.update(
+            type="DonaSet",
+            modality=dict(
+                use_lidar=True,
+                use_camera=with_mask,
+            ),
+            data_prefix=dict(
+                pts='training/velodyne', img='training/image_2'),
+            pipeline=[
+                dict(
+                    type='LoadPointsFromFile',
+                    coord_type='LIDAR',
+                    load_dim=4,
+                    use_dim=4,
+                    backend_args=backend_args),
+                dict(
+                    type='LoadAnnotations3D',
+                    with_bbox_3d=True,
+                    with_label_3d=True,
+                    backend_args=backend_args)
+            ])
+        # dataset_class_name = 'KittiDataset'
     if dataset_class_name == 'KittiDataset':
         backend_args = None
         dataset_cfg.update(

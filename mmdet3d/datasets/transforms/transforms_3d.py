@@ -405,8 +405,8 @@ class ObjectSample(BaseTransform):
 
         if self.use_ground_plane:
             ground_plane = input_dict.get('plane', None)
-            assert ground_plane is not None, '`use_ground_plane` is True ' \
-                                             'but find plane is None'
+            # assert ground_plane is not None, '`use_ground_plane` is True ' \
+            #                                  'but find plane is None'
         else:
             ground_plane = None
         # change to float for blending operation

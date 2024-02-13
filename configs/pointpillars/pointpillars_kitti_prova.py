@@ -38,7 +38,7 @@ train_pipeline = [
         use_dim=4,
         backend_args=backend_args),
     dict(type='LoadAnnotations3D', with_bbox_3d=True, with_label_3d=True),
-    # dict(type='ObjectSample', db_sampler=db_sampler, use_ground_plane=True),
+    dict(type='ObjectSample', db_sampler=db_sampler, use_ground_plane=True),
     dict(type='RandomFlip3D', flip_ratio_bev_horizontal=0.5),
     dict(
         type='GlobalRotScaleTrans',
@@ -77,7 +77,7 @@ test_pipeline = [
 ]
 
 train_dataloader = dict(
-    batch_size = 3,
+    batch_size=3,
     dataset=dict(dataset=dict(pipeline=train_pipeline, metainfo=metainfo)))
 test_dataloader = dict(dataset=dict(pipeline=test_pipeline, metainfo=metainfo))
 val_dataloader = dict(dataset=dict(pipeline=test_pipeline, metainfo=metainfo))
@@ -129,3 +129,14 @@ param_scheduler = [
 train_cfg = dict(by_epoch=True, max_epochs=epoch_num, val_interval=2)
 val_cfg = dict()
 test_cfg = dict()
+
+default_hooks = dict(
+    # timer=dict(type='IterTimerHook'),
+    # logger=dict(type='LoggerHook', interval=50),
+    # param_scheduler=dict(type='ParamSchedulerHook'),
+    # checkpoint=dict(type='CheckpointHook', interval=10,by_epoch = False),
+    # sampler_seed=dict(type='DistSamplerSeedHook'),
+    visualization=dict(type='Det3DVisualizationHook',draw=True)
+    )
+
+val_dataloader = dict{None}
