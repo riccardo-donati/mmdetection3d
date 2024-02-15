@@ -4,6 +4,7 @@ from .det3d_dataset import Det3DDataset
 from .kitti_dataset import KittiDataset
 from .lyft_dataset import LyftDataset
 from .donaset_dataset import DonaSet
+from .kittilidar_dataset import KittiLIDAR
 from .nuscenes_dataset import NuScenesDataset
 # yapf: enable
 from .s3dis_dataset import S3DISDataset, S3DISSegDataset
@@ -27,7 +28,7 @@ from .utils import get_loading_pipeline
 from .waymo_dataset import WaymoDataset
 
 __all__ = [
-    'DonaSet','KittiDataset', 'CBGSDataset', 'NuScenesDataset', 'LyftDataset',
+    'KittiLIDAR','DonaSet','KittiDataset', 'CBGSDataset', 'NuScenesDataset', 'LyftDataset',
     'ObjectSample', 'RandomFlip3D', 'ObjectNoise', 'GlobalRotScaleTrans',
     'PointShuffle', 'ObjectRangeFilter', 'PointsRangeFilter',
     'LoadPointsFromFile', 'S3DISSegDataset', 'S3DISDataset',

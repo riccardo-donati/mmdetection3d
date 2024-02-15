@@ -1,9 +1,9 @@
 # model settings
-_base_ = './pointpillars_hv_secfpn_8xb6-160e_donaset-3d-3class.py'
+_base_ = './pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-3class.py'
 
 # dataset settings
-dataset_type = 'DonaSet'
-data_root = 'data/KITTI_reduced_noImages/'
+dataset_type = 'KittiLIDAR'
+data_root = 'data/KITTI_lidar/'
 class_names = ['Car']
 metainfo = dict(classes=class_names)
 backend_args = None
@@ -37,7 +37,7 @@ model = dict(
 
 db_sampler = dict(
     data_root=data_root,
-    info_path=data_root + 'donaset_dbinfos_train.pkl',
+    info_path=data_root + 'kittilidar_dbinfos_train.pkl',
     rate=1.0,
     prepare=dict(filter_by_difficulty=[-1], filter_by_min_points=dict(Car=5)),
     classes=class_names,
@@ -99,7 +99,7 @@ test_pipeline = [
 train_dataloader = dict(
     batch_size=3,
     dataset=dict(
-        times = 5,
+        times = 1,
         dataset=dict(
             pipeline=train_pipeline, 
             metainfo=metainfo)))
@@ -122,6 +122,6 @@ train_cfg = dict(by_epoch=True, max_epochs=40, val_interval=1)
 val_dataloader = None
 val_cfg= None
 val_evaluator = None
-test_dataloader = None
-test_cfg = None
-test_evaluator = None
+# test_dataloader = None
+# test_cfg = None
+# test_evaluator = None

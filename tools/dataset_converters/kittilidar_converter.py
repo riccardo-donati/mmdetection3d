@@ -10,6 +10,7 @@ from nuscenes.utils.geometry_utils import view_points
 from mmdet3d.structures import points_cam2img
 from mmdet3d.structures.ops import box_np_ops
 from .kitti_data_utils import WaymoInfoGatherer, get_kitti_image_info
+from .kittilidar_data_utils import get_kittilidar_image_info
 from .donaset_data_utils import WaymoInfoGatherer, get_donaset_image_info
 
 from .nuscenes_converter import post_process_coords
@@ -125,15 +126,15 @@ def _calculate_num_points_in_gt(data_path,
     for info in mmengine.track_iter_progress(infos):
         pc_info = info['point_cloud']
         # image_info = info['image']
-        calib = info['calib']
+        # calib = info['calib']
         if relative_path:
             v_path = str(Path(data_path) / pc_info['velodyne_path'])
         else:
             v_path = pc_info['velodyne_path']
         points_v = np.fromfile(
             v_path, dtype=np.float32, count=-1).reshape([-1, num_features])
-        rect = calib['R0_rect']
-        Trv2c = calib['Tr_velo_to_cam']
+        # rect = calib['R0_rect']
+        # Trv2c = calib['Tr_velo_to_cam']
         # P2 = calib['P2']
         # if remove_outside:
         #     points_v = box_np_ops.remove_outside_points(
@@ -146,10 +147,10 @@ def _calculate_num_points_in_gt(data_path,
         dims = annos['dimensions'][:num_obj]
         loc = annos['location'][:num_obj]
         rots = annos['rotation_y'][:num_obj]
-        gt_boxes_camera = np.concatenate([loc, dims, rots[..., np.newaxis]],
+        # gt_boxes_camera = np.concatenate([loc, dims, rots[..., np.newaxis]],
+        #                                  axis=1)
+        gt_boxes_lidar = np.concatenate([loc, dims, rots[..., np.newaxis]],
                                          axis=1)
-        gt_boxes_lidar = box_np_ops.box_camera_to_lidar(
-            gt_boxes_camera, rect, Trv2c)
         indices = box_np_ops.points_in_rbbox(points_v[:, :3], gt_boxes_lidar)
         num_points_in_gt = indices.sum(0)
         num_ignored = len(annos['dimensions']) - num_obj
@@ -158,7 +159,7 @@ def _calculate_num_points_in_gt(data_path,
         annos['num_points_in_gt'] = num_points_in_gt.astype(np.int32)
 
 
-def create_donaset_info_file(data_path,
+def create_kittilidar_info_file(data_path,
                            pkl_prefix='donaset',
                            with_plane=False,
                            save_path=None,
@@ -188,15 +189,15 @@ def create_donaset_info_file(data_path,
         save_path = Path(data_path)
     else:
         save_path = Path(save_path)
-    kitti_infos_train = get_donaset_image_info(
+    kitti_infos_train = get_kittilidar_image_info(
         data_path,
         training=True,
         velodyne=True,
-        calib=True,
+        calib=False,
         with_plane=with_plane,
         image_ids=train_img_ids,
         relative_path=relative_path)
-    #_calculate_num_points_in_gt(data_path, kitti_infos_train, relative_path)
+    _calculate_num_points_in_gt(data_path, kitti_infos_train, relative_path)
     filename = save_path / f'{pkl_prefix}_infos_train.pkl'
     print(f'Kitti info train file is saved to {filename}')
     mmengine.dump(kitti_infos_train, filename)
@@ -204,7 +205,7 @@ def create_donaset_info_file(data_path,
         data_path,
         training=True,
         velodyne=True,
-        calib=True,
+        calib=False,
         with_plane=with_plane,
         image_ids=val_img_ids,
         relative_path=relative_path)

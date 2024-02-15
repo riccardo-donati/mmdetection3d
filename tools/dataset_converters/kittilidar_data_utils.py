@@ -144,10 +144,10 @@ def get_label_anno(label_path):
                                         for x in content]).reshape(-1, 3)
     annotations['rotation_y'] = np.array([float(x[-1])
                                           for x in content]).reshape(-1)
-    if len(content) != 0 and len(content[0]) == 16:  # have score
-        annotations['score'] = np.array([float(x[15]) for x in content])
-    else:
-        annotations['score'] = np.zeros((annotations['name'].shape[0], ))
+    # if len(content) != 0 and len(content[0]) == 16:  # have score
+    #     annotations['score'] = np.array([float(x[15]) for x in content])
+    # else:
+    #     annotations['score'] = np.zeros((annotations['name'].shape[0], ))
     index = list(range(num_objects)) + [-1] * (num_gt - num_objects)
     annotations['index'] = np.array(index, dtype=np.int32)
     annotations['group_ids'] = np.arange(num_gt, dtype=np.int32)
@@ -159,7 +159,7 @@ def _extend_matrix(mat):
     return mat
 
 
-def get_donaset_image_info(path,
+def get_kittilidar_image_info(path,
                          training=True,
                          label_info=True,
                          velodyne=False,

@@ -263,7 +263,7 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
     # for better detection performance comparison
     def draw_bboxes_3d(self,
                        bboxes_3d: BaseInstance3DBoxes,
-                       bbox_color: Tuple[float] = (0, 1, 0),
+                       bbox_color: Tuple[float] = (255, 0, 0),
                        points_in_box_color: Tuple[float] = (1, 0, 0),
                        rot_axis: int = 2,
                        center_mode: str = 'lidar_bottom',
@@ -314,7 +314,13 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
 
             line_set = geometry.LineSet.create_from_oriented_bounding_box(
                 box3d)
+            # colors = (np.array([bbox_color[i]]) / 255.)
+            # if colors.ndim == 1:
+            #         colors =  colors.reshape(3,1)
+            # line_set.paint_uniform_color(colors)
             line_set.paint_uniform_color(np.array(bbox_color[i]) / 255.)
+
+            
             # draw bboxes on visualizer
             self.o3d_vis.add_geometry(line_set)
 
