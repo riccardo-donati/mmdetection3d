@@ -201,7 +201,7 @@ def create_kittilidar_info_file(data_path,
     filename = save_path / f'{pkl_prefix}_infos_train.pkl'
     print(f'Kitti info train file is saved to {filename}')
     mmengine.dump(kitti_infos_train, filename)
-    kitti_infos_val = get_donaset_image_info(
+    kitti_infos_val = get_kittilidar_image_info(
         data_path,
         training=True,
         velodyne=True,
@@ -209,7 +209,7 @@ def create_kittilidar_info_file(data_path,
         with_plane=with_plane,
         image_ids=val_img_ids,
         relative_path=relative_path)
-    # _calculate_num_points_in_gt(data_path, kitti_infos_val, relative_path)
+    _calculate_num_points_in_gt(data_path, kitti_infos_val, relative_path)
     filename = save_path / f'{pkl_prefix}_infos_val.pkl'
     print(f'Kitti info val file is saved to {filename}')
     mmengine.dump(kitti_infos_val, filename)
@@ -217,12 +217,12 @@ def create_kittilidar_info_file(data_path,
     print(f'Kitti info trainval file is saved to {filename}')
     mmengine.dump(kitti_infos_train + kitti_infos_val, filename)
 
-    kitti_infos_test = get_donaset_image_info(
+    kitti_infos_test = get_kittilidar_image_info(
         data_path,
         training=False,
         label_info=False,
         velodyne=True,
-        calib=True,
+        calib=False,
         with_plane=False,
         image_ids=test_img_ids,
         relative_path=relative_path)

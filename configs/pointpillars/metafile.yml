@@ -14,6 +14,20 @@ Collections:
       Version: v0.6.0
 
 Models:
+- Name: pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-car
+    In Collection: PointPillars
+    Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-car.py
+    Metadata:
+      Training Data: KITTI
+      Training Memory (GB): 5.4
+      Training Resources: 8x V100 GPUs
+    Results:
+      - Task: 3D Object Detection
+        Dataset: KITTI
+        Metrics:
+          AP: 77.6
+    # Weights: 
+
   - Name: pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car
     In Collection: PointPillars
     Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py

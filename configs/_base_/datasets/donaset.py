@@ -1,6 +1,6 @@
 # dataset settings
-dataset_type = 'DonaSet'
-data_root = 'data/KITTI_reduced_noImages/'
+dataset_type = 'KittiLIDAR'
+data_root = 'data/DonaSet/'
 class_names = ['Car']
 point_cloud_range = [0, -40, -3, 70.4, 40, 1]
 input_modality = dict(use_lidar=True, use_camera=False)
@@ -23,7 +23,7 @@ backend_args = None
 
 db_sampler = dict(
     data_root=data_root,
-    info_path=data_root + 'donaset_dbinfos_train.pkl',
+    info_path=data_root + 'kittilidar_dbinfos_train.pkl',
     rate=1.0,
     prepare=dict(filter_by_difficulty=[-1], filter_by_min_points=dict(Car=5)),
     classes=class_names,
@@ -109,8 +109,8 @@ train_dataloader = dict(
         dataset=dict(
             type=dataset_type,
             data_root=data_root,
-            ann_file='donaset_infos_train.pkl',
-            data_prefix=dict(pts='training/velodyne_reduced'),
+            ann_file='kittilidar_infos_train.pkl',
+            data_prefix=dict(pts='training/velodyne'),
             pipeline=train_pipeline,
             modality=input_modality,
             test_mode=False,
@@ -128,8 +128,8 @@ val_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        data_prefix=dict(pts='training/velodyne_reduced'),
-        ann_file='donaset_infos_val.pkl',
+        data_prefix=dict(pts='training/velodyne'),
+        ann_file='kittilidar_infos_val.pkl',
         pipeline=test_pipeline,
         modality=input_modality,
         test_mode=True,
@@ -145,8 +145,8 @@ test_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        data_prefix=dict(pts='training/velodyne_reduced'),
-        ann_file='donaset_infos_val.pkl',
+        data_prefix=dict(pts='testing/velodyne'),
+        ann_file='kittilidar_infos_test.pkl',
         pipeline=test_pipeline,
         modality=input_modality,
         test_mode=True,
@@ -155,7 +155,7 @@ test_dataloader = dict(
         backend_args=backend_args))
 val_evaluator = dict(
     type='KittiMetric',
-    ann_file=data_root + 'donaset_infos_val.pkl',
+    ann_file=data_root + 'kittilidar_infos_val.pkl',
     metric='bbox',
     backend_args=backend_args)
 test_evaluator = val_evaluator
