@@ -52,7 +52,7 @@ class LidarDet3DInferencer(Base3DInferencer):
                  model: Union[ModelType, str, None] = None,
                  weights: Optional[str] = None,
                  device: Optional[str] = None,
-                 scope: str = '.',
+                 scope: str = 'mmdet3d',
                  palette: str = 'none') -> None:
         # A global counter tracking the number of frames processed, for
         # naming of the output results

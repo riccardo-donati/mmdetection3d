@@ -181,7 +181,20 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
         outs = self(x)
         predictions = self.predict_by_feat(
             *outs, batch_input_metas=batch_input_metas, rescale=rescale)
-        return predictions
+        
+        # Added predict part for loss in eval phase
+        batch_gt_instances = []
+        batch_gt_instances_ignore = []
+        batch_input_metas = []
+        for data_sample in batch_data_samples:
+            batch_input_metas.append(data_sample.metainfo)
+            batch_gt_instances.append(data_sample.gt_instances_3d)
+            batch_gt_instances_ignore.append(
+                data_sample.get('ignored_instances', None))
+        loss_inputs = outs + (batch_gt_instances, batch_input_metas,
+                              batch_gt_instances_ignore)
+        losses = self.loss_by_feat(*loss_inputs)
+        return predictions, losses
 
     def predict_by_feat(self,
                         cls_scores: List[Tensor],

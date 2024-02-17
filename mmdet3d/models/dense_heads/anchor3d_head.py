@@ -417,12 +417,12 @@ class Anchor3DHead(Base3DDenseHead, AnchorTrainMixin):
                 cast_tensor_type(cls_scores, dst_type=torch.float32),
                 cast_tensor_type(bbox_preds, dst_type=torch.float32),
                 cast_tensor_type(dir_cls_preds, dst_type=torch.float32),
-                labels_list,
-                label_weights_list,
-                bbox_targets_list,
-                bbox_weights_list,
-                dir_targets_list,
-                dir_weights_list,
+                labels_list, # per ogni anchor il suo label (in caso solo Car -> 0, others -> num_clases(1))
+                label_weights_list, # tutti gli anchor validi per la classificazione (tutti meno ai bordi?)
+                bbox_targets_list, # per gli anchor classificati Car i parametri, per others tutti zeri
+                bbox_weights_list, # [1 .. 1] per ogni anchor classificato Car, [0 .. 0] per gli altri
+                dir_targets_list, # 1 per gli anchor classificati Car se dir tra 0 pi, 0 se dir tra pi 2pi (o viceversa da controllare)
+                dir_weights_list, # 1 per ogni anchor classificato Car
                 num_total_samples=num_total_samples)
         return dict(
             loss_cls=losses_cls, loss_bbox=losses_bbox, loss_dir=losses_dir)

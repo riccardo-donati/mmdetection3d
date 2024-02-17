@@ -95,17 +95,33 @@ test_pipeline = [
         ]),
     dict(type='Pack3DDetInputs', keys=['points'])
 ]
-
 train_dataloader = dict(
     batch_size=3,
     dataset=dict(
-        times = 10,
+        times = 1,
         dataset=dict(
             pipeline=train_pipeline, 
             metainfo=metainfo)))
 test_dataloader = dict(dataset=dict(pipeline=test_pipeline, metainfo=metainfo))
-val_dataloader = dict(dataset=dict(pipeline=test_pipeline, metainfo=metainfo))
 
+################################ Changes for Losses metric ################################
+eval_pipeline = [
+    dict(
+        type='LoadPointsFromFile',
+        coord_type='LIDAR',
+        load_dim=4,
+        use_dim=4,
+        backend_args=backend_args),
+    dict(type='LoadAnnotations3D', with_bbox_3d=True, with_label_3d=True), # Need Annotation
+    dict(type='Pack3DDetInputs', keys=['points','gt_bboxes_3d', 'gt_labels_3d']) # Need gt
+]
+val_dataloader = dict(batch_size=3,dataset=dict(pipeline=eval_pipeline,test_mode = False, metainfo=metainfo)) # test_mode = False
+
+val_evaluator = dict(
+    _delete_=True,
+    type='LossesMetric',
+    backend_args=backend_args)
+############################################################################################
 
 # HANDCHANGED
 default_hooks = dict(
@@ -119,9 +135,9 @@ default_hooks = dict(
 train_cfg = dict(by_epoch=True, max_epochs=40, val_interval=1)
 
 # Disable validation 
-val_dataloader = None
-val_cfg= None
-val_evaluator = None
+# val_dataloader = None
+# val_cfg= None
+# val_evaluator = None
 # test_dataloader = None
 # test_cfg = None
 # test_evaluator = None

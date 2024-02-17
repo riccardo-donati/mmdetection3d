@@ -14,20 +14,6 @@ Collections:
       Version: v0.6.0
 
 Models:
-- Name: pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-car
-    In Collection: PointPillars
-    Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-car.py
-    Metadata:
-      Training Data: KITTI
-      Training Memory (GB): 5.4
-      Training Resources: 8x V100 GPUs
-    Results:
-      - Task: 3D Object Detection
-        Dataset: KITTI
-        Metrics:
-          AP: 77.6
-    # Weights: 
-
   - Name: pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car
     In Collection: PointPillars
     Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py
@@ -41,6 +27,21 @@ Models:
         Metrics:
           AP: 77.6
     Weights: https://download.openmmlab.com/mmdetection3d/v1.0.0_models/pointpillars/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth
+
+  - Name: pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car
+    Alias: pointpillars_donaset-car
+    In Collection: PointPillars
+    Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car.py
+    Metadata:
+      Training Data: KITTI
+      Training Memory (GB): 5.5
+      Training Resources: 8x V100 GPUs
+    Results:
+      - Task: 3D Object Detection
+        Dataset: KITTI
+        Metrics:
+          AP: 64.07
+    Weights: /home/riccardo/LidarObjDetection/mmdetection3d_dona/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car/iter_2500.pth
 
   - Name: pointpillars_hv_secfpn_8xb6-160e_kitti-3d-3class
     Alias: pointpillars_kitti-3class

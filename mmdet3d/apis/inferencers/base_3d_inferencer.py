@@ -70,7 +70,7 @@ class Base3DInferencer(BaseInferencer):
         self.palette = palette
         init_default_scope(scope)
         super().__init__(
-            model=model, weights=weights, device=device, scope=scope)
+            model=model, weights=weights, device=device, scope=scope, show_progress=False)
         self.model = revert_sync_batchnorm(self.model)
 
     def _convert_syncbn(self, cfg: ConfigType):
