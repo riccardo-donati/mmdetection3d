@@ -145,8 +145,8 @@ test_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        data_prefix=dict(pts='testing/velodyne'),
-        ann_file='kittilidar_infos_test.pkl',
+        data_prefix=dict(pts='training/velodyne'),
+        ann_file='kittilidar_infos_val.pkl',
         pipeline=test_pipeline,
         modality=input_modality,
         test_mode=True,

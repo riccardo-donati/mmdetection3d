@@ -175,7 +175,8 @@ class Det3DVisualizationHook(Hook):
             self.test_out_dir = osp.join(runner.work_dir, runner.timestamp,
                                          self.test_out_dir)
             mkdir_or_exist(self.test_out_dir)
-
+        if isinstance(outputs,tuple):
+            outputs = outputs[0]
         for data_sample in outputs:
             self._test_index += 1
 

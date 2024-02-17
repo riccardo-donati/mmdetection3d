@@ -193,7 +193,10 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
                 data_sample.get('ignored_instances', None))
         loss_inputs = outs + (batch_gt_instances, batch_input_metas,
                               batch_gt_instances_ignore)
-        losses = self.loss_by_feat(*loss_inputs)
+        try:
+            losses = self.loss_by_feat(*loss_inputs)
+        except: 
+            losses = None
         return predictions, losses
 
     def predict_by_feat(self,
