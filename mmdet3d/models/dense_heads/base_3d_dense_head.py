@@ -143,7 +143,7 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
 
         predictions = self.predict_by_feat(
             *outs, batch_input_metas=batch_input_metas, cfg=proposal_cfg)
-        return losses, predictions
+        return predictions,losses
 
     def predict(self,
                 x: Tuple[Tensor],
@@ -183,22 +183,23 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
             *outs, batch_input_metas=batch_input_metas, rescale=rescale)
         
         # Added predict part for loss in eval phase
-        batch_gt_instances = []
-        batch_gt_instances_ignore = []
-        batch_input_metas = []
-        for data_sample in batch_data_samples:
-            batch_input_metas.append(data_sample.metainfo)
-            batch_gt_instances.append(data_sample.gt_instances_3d)
-            batch_gt_instances_ignore.append(
-                data_sample.get('ignored_instances', None))
-        loss_inputs = outs + (batch_gt_instances, batch_input_metas,
-                              batch_gt_instances_ignore)
-        try:
-            losses = self.loss_by_feat(*loss_inputs)
-        except: 
-            losses = None
-        return predictions, losses
-
+        # batch_gt_instances = []
+        # batch_gt_instances_ignore = []
+        # batch_input_metas = []
+        # for data_sample in batch_data_samples:
+        #     batch_input_metas.append(data_sample.metainfo)
+        #     batch_gt_instances.append(data_sample.gt_instances_3d)
+        #     batch_gt_instances_ignore.append(
+        #         data_sample.get('ignored_instances', None))
+        # loss_inputs = outs + (batch_gt_instances, batch_input_metas,
+        #                       batch_gt_instances_ignore)
+        # try:
+        #     losses = self.loss_by_feat(*loss_inputs)
+        # except: 
+        #     losses = None
+        # return predictions, losses
+        return predictions
+ 
     def predict_by_feat(self,
                         cls_scores: List[Tensor],
                         bbox_preds: List[Tensor],

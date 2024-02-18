@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import math
+import time
 from numbers import Number
 from typing import Dict, List, Optional, Sequence, Tuple, Union
 
@@ -148,8 +149,12 @@ class Det3DDataPreprocessor(DetDataPreprocessor):
                 aug_batch_data.append(single_aug_batch_data)
             return aug_batch_data
 
-        else:
-            return self.simple_process(data, training)
+        else: 
+            start = time.time()
+            tmp = self.simple_process(data, training)
+            end = time.time()
+            print("Preprocessing took {} ms".format((end-start)*1000))
+            return tmp
 
     def simple_process(self, data: dict, training: bool = False) -> dict:
         """Perform normalization, padding and bgr2rgb conversion for img data

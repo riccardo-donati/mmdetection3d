@@ -2,6 +2,7 @@
 from typing import Dict, List, Tuple, Union
 
 import torch
+import time
 from torch import Tensor
 
 from mmdet3d.registry import MODELS
@@ -107,10 +108,16 @@ class SingleStage3DDetector(Base3DDetector):
                     (num_instances, C) where C >=7.
         """
         x = self.extract_feat(batch_inputs_dict)
-        results_list,losses = self.bbox_head.predict(x, batch_data_samples, **kwargs)
+        if 'bboxes_3d' in batch_data_samples[0].gt_instances_3d._data_fields:
+            results_list, losses = self.bbox_head.loss_and_predict(x, batch_data_samples, **kwargs)
+        else:
+            start = time.time()
+            results_list = self.bbox_head.predict(x, batch_data_samples, **kwargs)
+            print("Bbox Head took {} ms\n".format((time.time()-start)*1000))
+            losses = None
         predictions = self.add_pred_to_datasample(batch_data_samples,
                                                   results_list)
-        return predictions,losses
+        return predictions, losses
 
     def _forward(self,
                  batch_inputs_dict: dict,

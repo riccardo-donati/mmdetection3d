@@ -1,6 +1,8 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import logging
 import os.path as osp
+import time
+
 from copy import deepcopy
 from typing import Dict, List, Optional, Sequence, Tuple, Union
 
@@ -209,7 +211,7 @@ class Base3DInferencer(BaseInferencer):
         results_dict = {'predictions': [], 'visualization': []}
         for data in (track(inputs, description='Inference')
                      if self.show_progress else inputs):
-            preds.extend(self.forward(data, **forward_kwargs))
+            preds.extend(self.forward(data, **forward_kwargs)[0]) # preds[1] is None for losses
             visualization = self.visualize(ori_inputs, preds,
                                            **visualize_kwargs)
             results = self.postprocess(preds, visualization,
