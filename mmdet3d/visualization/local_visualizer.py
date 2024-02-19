@@ -669,7 +669,7 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
 
             self.set_points(
                 points, pcd_mode=2, mode='xyzrgb' if show_pcd_rgb else 'xyz')
-            self.draw_bboxes_3d(bboxes_3d_depth, bbox_color=colors)
+            self.draw_bboxes_3d(bboxes_3d_depth, bbox_color=colors, center_mode= "lidar_center") #Changed center_mode 
 
             data_3d['bboxes_3d'] = tensor2ndarray(bboxes_3d_depth.tensor)
             data_3d['points'] = points
