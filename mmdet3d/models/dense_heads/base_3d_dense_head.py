@@ -8,6 +8,7 @@ from mmdet.models.utils import select_single_mlvl
 from mmengine.config import ConfigDict
 from mmengine.model import BaseModule, constant_init
 from mmengine.structures import InstanceData
+from mmdet3d.structures.bbox_3d.lidar_box3d import LiDARInstance3DBoxes
 from torch import Tensor
 
 from mmdet3d.models.layers import box3d_multiclass_nms
@@ -175,9 +176,11 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
               contains a tensor with shape (num_instances, C), where
               C >= 7.
         """
-        batch_input_metas = [
-            data_samples.metainfo for data_samples in batch_data_samples
-        ]
+        batch_input_metas = None
+        if batch_data_samples is not None:
+            batch_input_metas = [
+                data_samples.metainfo for data_samples in batch_data_samples
+            ]
         outs = self(x)
         predictions = self.predict_by_feat(
             *outs, batch_input_metas=batch_input_metas, rescale=rescale)
@@ -253,10 +256,11 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
         ]
 
         result_list = []
-
-        for input_id in range(len(batch_input_metas)):
-
-            input_meta = batch_input_metas[input_id]
+        batch_size = cls_scores[0].shape[0]
+        for input_id in range(batch_size):
+            input_meta = None
+            if batch_input_metas is not None:
+                input_meta = batch_input_metas[input_id]
             cls_score_list = select_single_mlvl(cls_scores, input_id)
             bbox_pred_list = select_single_mlvl(bbox_preds, input_id)
             dir_cls_pred_list = select_single_mlvl(dir_cls_preds, input_id)
@@ -319,6 +323,10 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
                 - bboxes (Tensor): Has a shape (num_instances, 4),
                   the last dimension 4 arrange as (x1, y1, x2, y2).
         """
+        # If metainfo is None set the box type to default value
+        if input_meta is None:
+            input_meta = {}
+            input_meta['box_type_3d'] = LiDARInstance3DBoxes
         cfg = self.test_cfg if cfg is None else cfg
         assert len(cls_score_list) == len(bbox_pred_list) == len(mlvl_priors)
         mlvl_bboxes = []

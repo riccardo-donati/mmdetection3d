@@ -73,7 +73,9 @@ class SingleStage3DDetector(Base3DDetector):
             dict: A dictionary of loss components.
         """
         x = self.extract_feat(batch_inputs_dict)
+        # start = time.time()
         losses = self.bbox_head.loss(x, batch_data_samples, **kwargs)
+        # print("Bbox Head loss took {} ms\n".format((time.time()-start)*1000))
         return losses
 
     def predict(self, batch_inputs_dict: dict, batch_data_samples: SampleList,
@@ -108,13 +110,15 @@ class SingleStage3DDetector(Base3DDetector):
                     (num_instances, C) where C >=7.
         """
         x = self.extract_feat(batch_inputs_dict)
-        if 'bboxes_3d' in batch_data_samples[0].gt_instances_3d._data_fields:
+        if batch_data_samples is not None and 'bboxes_3d' in batch_data_samples[0].gt_instances_3d._data_fields:
             results_list, losses = self.bbox_head.loss_and_predict(x, batch_data_samples, **kwargs)
         else:
             start = time.time()
             results_list = self.bbox_head.predict(x, batch_data_samples, **kwargs)
-            print("Bbox Head took {} ms\n".format((time.time()-start)*1000))
+            print("Bbox Head pred took {} ms\n".format((time.time()-start)*1000))
             losses = None
+        if batch_data_samples is None:
+            return results_list
         predictions = self.add_pred_to_datasample(batch_data_samples,
                                                   results_list)
         return predictions, losses
@@ -141,7 +145,9 @@ class SingleStage3DDetector(Base3DDetector):
             tuple[list]: A tuple of features from ``bbox_head`` forward.
         """
         x = self.extract_feat(batch_inputs_dict)
+        start = time.time()
         results = self.bbox_head.forward(x)
+        print("Bbox Head forward took {} ms\n".format((time.time()-start)*1000))
         return results
 
     def extract_feat(

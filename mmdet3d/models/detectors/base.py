@@ -74,7 +74,7 @@ class Base3DDetector(BaseDetector):
         if mode == 'loss':
             return self.loss(inputs, data_samples, **kwargs)
         elif mode == 'predict':
-            if isinstance(data_samples[0], list):
+            if data_samples is not None and isinstance(data_samples[0], list):
                 # aug test
                 assert len(data_samples[0]) == 1, 'Only support ' \
                                                   'batch_size 1 ' \
