@@ -249,8 +249,17 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
         assert len(cls_scores) == len(dir_cls_preds)
         num_levels = len(cls_scores)
         featmap_sizes = [cls_scores[i].shape[-2:] for i in range(num_levels)]
+        if isinstance(cls_scores, np.ndarray):
+            device = "cpu"
+            cls_scores = [torch.from_numpy(cls_scores)]
+            bbox_preds = [torch.from_numpy(bbox_preds)]
+            dir_cls_preds = [torch.from_numpy(dir_cls_preds)]
+            detach = False
+        else:
+            device = cls_scores[0].device
+            detach = True
         mlvl_priors = self.prior_generator.grid_anchors(
-            featmap_sizes, device=cls_scores[0].device)
+            featmap_sizes, device=device)
         mlvl_priors = [
             prior.reshape(-1, self.box_code_size) for prior in mlvl_priors
         ]
@@ -261,9 +270,9 @@ class Base3DDenseHead(BaseModule, metaclass=ABCMeta):
             input_meta = None
             if batch_input_metas is not None:
                 input_meta = batch_input_metas[input_id]
-            cls_score_list = select_single_mlvl(cls_scores, input_id)
-            bbox_pred_list = select_single_mlvl(bbox_preds, input_id)
-            dir_cls_pred_list = select_single_mlvl(dir_cls_preds, input_id)
+            cls_score_list = select_single_mlvl(cls_scores, input_id, detach=detach)
+            bbox_pred_list = select_single_mlvl(bbox_preds, input_id, detach=detach)
+            dir_cls_pred_list = select_single_mlvl(dir_cls_preds, input_id, detach=detach)
 
             results = self._predict_by_feat_single(
                 cls_score_list=cls_score_list,

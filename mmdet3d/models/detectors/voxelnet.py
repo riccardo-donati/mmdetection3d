@@ -42,14 +42,14 @@ class VoxelNet(SingleStage3DDetector):
                                             voxel_dict['num_points'],
                                             voxel_dict['coors'])
         end1 = time.time()
-        print("Voxel Encoder took {} ms".format((end1-start1)*1000))
-        batch_size = voxel_dict['coors'][-1, 0].item() + 1
+        # print("Voxel Encoder took {} ms".format((end1-start1)*1000))
+        batch_size = voxel_dict['coors'][-1, 0] + 1
         x = self.middle_encoder(voxel_features, voxel_dict['coors'],
                                 batch_size)
         end2 = time.time()
-        print("Middle Encoder/Imagify took {} ms".format((end2-end1)*1000))
+        # print("Middle Encoder/Imagify took {} ms".format((end2-end1)*1000))
         x = self.backbone(x)
         if self.with_neck:
             x = self.neck(x)
-        print("Backbone + FPN took {} ms".format((time.time()-end2)*1000))
+        # print("Backbone + FPN took {} ms".format((time.time()-end2)*1000))
         return x

@@ -115,7 +115,7 @@ class SingleStage3DDetector(Base3DDetector):
         else:
             start = time.time()
             results_list = self.bbox_head.predict(x, batch_data_samples, **kwargs)
-            print("Bbox Head pred took {} ms\n".format((time.time()-start)*1000))
+            # print("Bbox Head pred took {} ms\n".format((time.time()-start)*1000))
             losses = None
         if batch_data_samples is None:
             return results_list
@@ -147,7 +147,7 @@ class SingleStage3DDetector(Base3DDetector):
         x = self.extract_feat(batch_inputs_dict)
         start = time.time()
         results = self.bbox_head.forward(x)
-        print("Bbox Head forward took {} ms\n".format((time.time()-start)*1000))
+        # print("Bbox Head forward took {} ms\n".format((time.time()-start)*1000))
         return results
 
     def extract_feat(

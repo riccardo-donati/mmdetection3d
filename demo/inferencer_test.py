@@ -12,7 +12,7 @@ def prepare_input(inputs):
     model_inputs = {}
     model_inputs["inputs"] = {}
     model_inputs["inputs"]["points"] = []
-    max = 1
+    max = 2
 
     files = []
     if not os.path.isdir(inputs["points"]):

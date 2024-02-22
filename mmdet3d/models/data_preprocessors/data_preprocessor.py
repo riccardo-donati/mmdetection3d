@@ -153,7 +153,7 @@ class Det3DDataPreprocessor(DetDataPreprocessor):
             start = time.time()
             tmp = self.simple_process(data, training)
             end = time.time()
-            print("Preprocessing took {} ms".format((end-start)*1000))
+            # print("Preprocessing took {} ms".format((end-start)*1000))
             return tmp
 
     def simple_process(self, data: dict, training: bool = False) -> dict:
