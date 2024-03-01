@@ -232,7 +232,7 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
         render_option = self.o3d_vis.get_render_option()
         if render_option is not None:
             render_option.point_size = points_size
-            render_option.background_color = np.asarray([0, 0, 0])
+            render_option.background_color = np.asarray([255, 0, 0])
 
         points = points.copy()
         pcd = geometry.PointCloud()
@@ -652,14 +652,14 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
                 points, bboxes_3d_depth = to_depth_mode(points, bboxes_3d)
             else:
                 bboxes_3d_depth = bboxes_3d.clone()
-
-            if 'axis_align_matrix' in input_meta:
-                points = DepthPoints(points, points_dim=points.shape[1])
-                rot_mat = input_meta['axis_align_matrix'][:3, :3]
-                trans_vec = input_meta['axis_align_matrix'][:3, -1]
-                points.rotate(rot_mat.T)
-                points.translate(trans_vec)
-                points = tensor2ndarray(points.tensor)
+            if input_meta is not None:
+                if 'axis_align_matrix' in input_meta:
+                    points = DepthPoints(points, points_dim=points.shape[1])
+                    rot_mat = input_meta['axis_align_matrix'][:3, :3]
+                    trans_vec = input_meta['axis_align_matrix'][:3, -1]
+                    points.rotate(rot_mat.T)
+                    points.translate(trans_vec)
+                    points = tensor2ndarray(points.tensor)
 
             max_label = int(max(labels_3d) if len(labels_3d) > 0 else 0)
             bbox_color = palette if self.bbox_color is None \
@@ -669,10 +669,10 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
 
             self.set_points(
                 points, pcd_mode=2, mode='xyzrgb' if show_pcd_rgb else 'xyz')
-            self.draw_bboxes_3d(bboxes_3d_depth, bbox_color=colors, center_mode= "lidar_center") #Changed center_mode 
+            # self.draw_bboxes_3d(bboxes_3d_depth, bbox_color=colors, center_mode= "lidar_center") #Changed center_mode 
 
-            data_3d['bboxes_3d'] = tensor2ndarray(bboxes_3d_depth.tensor)
-            data_3d['points'] = points
+            # data_3d['bboxes_3d'] = tensor2ndarray(bboxes_3d_depth.tensor)
+            # data_3d['points'] = points
 
         if vis_task in ['mono_det', 'multi-modality_det']:
             assert 'img' in data_input

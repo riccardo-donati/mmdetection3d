@@ -1,7 +1,10 @@
-from mmdeploy.apis.inference import inference_model
-from mmdeploy.apis.inference import get_model
+
 import sys
 sys.path.append("/root/workspace/LidarObjDetection/mmdetection3d_dona/mmdetection3d")
+sys.path.append("/root/workspace/LidarObjDetection/mmdeploy_dona/mmdeploy/")
+
+from mmdeploy.apis.inference import inference_model
+from mmdeploy.apis.inference import get_model
 from mmdet3d.apis import LidarDet3DInferencer
 import os
 import torch
@@ -18,15 +21,14 @@ from mmdet3d.datasets.transforms.formating import Pack3DDetInputs
 
 
 def main():
-    inferencer = LidarDet3DInferencer('pointpillars_donaset_container-car')
-
+    inferencer = LidarDet3DInferencer('pointpillars_cielo_falcon-car')
     model = inferencer.model
-    pcl_path = "../data/DonaSet/training/velodyne/"
+    pcl_path = "../data/cielo_falcon/training/velodyne/"
 
-    model_cfg = "../configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car.py"
-    deploy_cfg = "/root/workspace/mmdeploy/configs/mmdet3d/voxel-detection/voxel-detection_tensorrt_dynamic-kitti-32x4.py"
-    backend_files = "end2end.engine"
-    img = "../data/DonaSet/training/velodyne/000000.bin"
+    model_cfg = "../configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_cielo_falcon-3d-car.py"
+    deploy_cfg = "/root/workspace/LidarObjDetection/mmdeploy_dona/mmdeploy/configs/mmdet3d/voxel-detection/voxel-detection_tensorrt_dynamic-kitti-32x4_fp16.py"
+    backend_files = "end2end_cielo.engine"
+    img = "../data/cielo_falcon/training/velodyne/000000.bin"
     device = "cuda"
 
     tensorrt_model = get_model(model_cfg,deploy_cfg,[backend_files],img,device)
@@ -34,7 +36,7 @@ def main():
     res = tensorrt_model(inputs, mode="predict")
     
     c = 0
-    pcl_path = "../data/DonaSet/training/velodyne/00000"
+    pcl_path = "../data/cielo_falcon/training/velodyne/00000"
     while True:
         input_utente = input("Premi Invio per continuare (oppure digita 'exit' per uscire): ")
         
