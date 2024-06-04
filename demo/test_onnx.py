@@ -5,7 +5,7 @@ import onnxruntime as ort
 import numpy as np
 
 def main():
-    model_path = 'end2end2.onnx'
+    model_path = 'end2end.onnx'
     onnx_model = onnx.load(model_path)
     onnx.checker.check_model(onnx_model)
 

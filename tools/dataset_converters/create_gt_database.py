@@ -342,7 +342,6 @@ def create_groundtruth_database(dataset_class_name,
             # save point clouds and image patches for each object
             gt_points = points[point_indices[:, i]]
             gt_points[:, :3] -= gt_boxes_3d[i, :3]
-
             if with_mask:
                 if object_masks[i].sum() == 0 or not valid_inds[i]:
                     # Skip object for empty or invalid mask

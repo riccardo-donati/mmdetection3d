@@ -232,7 +232,7 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
         render_option = self.o3d_vis.get_render_option()
         if render_option is not None:
             render_option.point_size = points_size
-            render_option.background_color = np.asarray([255, 0, 0])
+            render_option.background_color = np.asarray([0, 0, 0])
 
         points = points.copy()
         pcd = geometry.PointCloud()
@@ -634,8 +634,8 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
         """
 
         # Only visualize when there is at least one instance
-        if not len(instances) > 0:
-            return None
+        # if not len(instances) > 0:
+        #     return None
 
         bboxes_3d = instances.bboxes_3d  # BaseInstance3DBoxes
         labels_3d = instances.labels_3d
@@ -669,7 +669,7 @@ class Det3DLocalVisualizer(DetLocalVisualizer):
 
             self.set_points(
                 points, pcd_mode=2, mode='xyzrgb' if show_pcd_rgb else 'xyz')
-            # self.draw_bboxes_3d(bboxes_3d_depth, bbox_color=colors, center_mode= "lidar_center") #Changed center_mode 
+            self.draw_bboxes_3d(bboxes_3d_depth, bbox_color=colors, center_mode= "lidar_center") #Changed center_mode 
 
             # data_3d['bboxes_3d'] = tensor2ndarray(bboxes_3d_depth.tensor)
             # data_3d['points'] = points

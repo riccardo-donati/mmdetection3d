@@ -65,7 +65,7 @@ def main():
     s = time.time()
     prep_input = prepare_input(inputs)
     res = model(prep_input["inputs"],prep_input["data_samples"], mode="predict")
-    print("Time: {} ms".format((time.time()-s)*1000))
+    print("Time: {} ms".format((time.time()-s)*998))
     # inferencer(inputs, show=True,pred_score_thr=0.3)
 
 if __name__ == "__main__":

@@ -41,7 +41,7 @@ Models:
         Dataset: KITTI
         Metrics:
           AP: 64.07
-    Weights: /home/riccardo/LidarObjDetection/mmdetection3d_dona/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-car/iter_4000.pth
+    Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_kittilidar-3d-car/iter_2000.pth
 
   - Name: pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car
     Alias: pointpillars_donaset-car
@@ -87,8 +87,25 @@ Models:
         Dataset: KITTI
         Metrics:
           AP: 64.07
-    Weights: /root/workspace/LidarObjDetection/mmdetection3d_dona/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car/iter_2500.pth
+    Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car/iter_500.pth
     # set /home/riccardo instead of  /root/workspace if not in a container
+
+  - Name: pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car
+    Alias: pointpillars_lidar_vegas_iris-car
+    In Collection: PointPillars
+    Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car.py
+    Metadata:
+      Training Data: KITTI
+      Training Memory (GB): 5.5
+      Training Resources: 8x V100 GPUs
+    Results:
+      - Task: 3D Object Detection
+        Dataset: KITTI
+        Metrics:
+          AP: 64.07
+    Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car/iter_4750.pth
+    # set /home/riccardo instead of  /root/workspace if not in a container
+
 
   - Name: pointpillars_hv_secfpn_8xb6-160e_kitti-3d-3class
     Alias: pointpillars_kitti-3class
