@@ -301,7 +301,7 @@ def create_groundtruth_database(dataset_class_name,
             difficulty = annos['difficulty']
 
         num_obj = gt_boxes_3d.shape[0]
-        point_indices = box_np_ops.points_in_rbbox(points, gt_boxes_3d)
+        point_indices = box_np_ops.points_in_rbbox(points, gt_boxes_3d,origin=(0.5, 0.5, 0.5)) # (0.5, 0.5, 0) for KITTI, (0.5, 0.5, 0.5) if manually annotated
 
         if with_mask:
             # prepare masks
@@ -467,7 +467,7 @@ class GTDatabaseCreater:
             difficulty = annos['difficulty']
 
         num_obj = gt_boxes_3d.shape[0]
-        point_indices = box_np_ops.points_in_rbbox(points, gt_boxes_3d)
+        point_indices = box_np_ops.points_in_rbbox(points, gt_boxes_3d,(0.5, 0.5, 0.5)) # (0.5, 0.5, 0) for KITTI, (0.5, 0.5, 0.5) if manually annotated
 
         if self.with_mask:
             # prepare masks

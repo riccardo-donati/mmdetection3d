@@ -90,8 +90,24 @@ Models:
     Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_donaset-3d-car/iter_500.pth
     # set /home/riccardo instead of  /root/workspace if not in a container
 
-  - Name: pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car
-    Alias: pointpillars_lidar_vegas_iris-car
+  - Name: pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car_front
+    Alias: pointpillars_lidar_vegas_iris-car_front
+    In Collection: PointPillars
+    Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car_front.py
+    Metadata:
+      Training Data: KITTI
+      Training Memory (GB): 5.5
+      Training Resources: 8x V100 GPUs
+    Results:
+      - Task: 3D Object Detection
+        Dataset: KITTI
+        Metrics:
+          AP: 64.07
+    Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car_front/iter_10000.pth
+    # set /home/riccardo instead of  /root/workspace if not in a container
+
+  - Name: pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car_360
+    Alias: pointpillars_lidar_vegas_iris-car_360
     In Collection: PointPillars
     Config: configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car.py
     Metadata:
@@ -104,6 +120,22 @@ Models:
         Metrics:
           AP: 64.07
     Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hv_secfpn_8xb6-160e_lidar_vegas_iris-3d-car/iter_4750.pth
+    # set /home/riccardo instead of  /root/workspace if not in a container
+  
+  - Name: pointpillars_hydris_car
+    Alias: pointpillars_hydris_car
+    In Collection: PointPillars
+    Config: configs/pointpillars/pointpillars_hydris_car.py
+    Metadata:
+      Training Data: KITTI
+      Training Memory (GB): 5.5
+      Training Resources: 8x V100 GPUs
+    Results:
+      - Task: 3D Object Detection
+        Dataset: KITTI
+        Metrics:
+          AP: 64.07
+    Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hydris_car/iter_6500.pth
     # set /home/riccardo instead of  /root/workspace if not in a container
 
 

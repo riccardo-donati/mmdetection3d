@@ -1,10 +1,10 @@
 _base_ = [
-    '../_base_/models/pointpillars_hv_secfpn_donaset.py',
+    '../_base_/models/pointpillars_hv_secfpn_lidar_vegas_iris.py',
     '../_base_/datasets/lidar_vegas_iris.py',
     '../_base_/schedules/cyclic-40e.py', '../_base_/default_runtime.py'
 ]
 
-point_cloud_range = [0, -39.68, -3, 69.12, 39.68, 1]
+point_cloud_range = [-60, -19.84, -3, 79.52, 19.84, 3]
 # dataset settings
 data_root = 'data/Dataset_Lidar_20240111_vegas_ontrack_01/'
 class_names = ['Pedestrian', 'Cyclist', 'Car']

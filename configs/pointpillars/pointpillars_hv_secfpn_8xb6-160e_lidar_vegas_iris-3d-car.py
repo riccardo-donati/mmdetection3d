@@ -8,7 +8,8 @@ class_names = ['Car']
 metainfo = dict(classes=class_names)
 backend_args = None
 
-point_cloud_range = [0, -39.68, -3, 69.12, 39.68, 1]
+
+point_cloud_range = [-60, -19.84, -3, 79.52, 19.84, 3]
 
 model = dict(
     bbox_head=dict(
@@ -17,8 +18,8 @@ model = dict(
         anchor_generator=dict(
             _delete_=True,
             type='AlignedAnchor3DRangeGenerator',
-            ranges=[[0, -39.68, -1.78, 69.12, 39.68, -1.78]],
-            sizes=[[3.9, 1.6, 1.56]],
+            ranges=[[-60, -19.84, -3, 79.52, 19.84, 3]],
+            sizes=[[5, 2, 1.5]],
             rotations=[0, 1.57],
             reshape_out=True)),
     # model training and testing settings
@@ -59,6 +60,12 @@ train_pipeline = [
         backend_args=backend_args),
     dict(type='LoadAnnotations3D', with_bbox_3d=True, with_label_3d=True),
     dict(type='ObjectSample', db_sampler=db_sampler, use_ground_plane=True),
+    # dict(
+    #     type='ObjectNoise',
+    #     num_try=100,
+    #     translation_std=[1.0, 1.0, 0.5],
+    #     global_rot_range=[0.0, 0.0],
+    #     rot_range=[-0.78539816, 0.78539816]),
     dict(type='RandomFlip3D', flip_ratio_bev_horizontal=0.5),
     dict(
         type='GlobalRotScaleTrans',
@@ -97,7 +104,7 @@ test_pipeline = [
 ]
 
 train_dataloader = dict(
-    batch_size=3,
+    batch_size= 2,
     dataset=dict(
         times = 3,
         dataset=dict(

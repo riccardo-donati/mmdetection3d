@@ -103,7 +103,7 @@ class _NumPointsInGTCalculater:
                                          axis=1)
         gt_boxes_lidar = box_np_ops.box_camera_to_lidar(
             gt_boxes_camera, rect, Trv2c)
-        indices = box_np_ops.points_in_rbbox(points_v[:, :3], gt_boxes_lidar)
+        indices = box_np_ops.points_in_rbbox(points_v[:, :3], gt_boxes_lidar,(0.5, 0.5, 0.5)) # (0.5, 0.5, 0) for KITTI, (0.5, 0.5, 0.5) if manually annotated
         num_points_in_gt = indices.sum(0)
         num_ignored = len(annos['dimensions']) - num_obj
         num_points_in_gt = np.concatenate(
@@ -151,7 +151,7 @@ def _calculate_num_points_in_gt(data_path,
         #                                  axis=1)
         gt_boxes_lidar = np.concatenate([loc, dims, rots[..., np.newaxis]],
                                          axis=1)
-        indices = box_np_ops.points_in_rbbox(points_v[:, :3], gt_boxes_lidar)
+        indices = box_np_ops.points_in_rbbox(points_v[:, :3], gt_boxes_lidar,(0.5, 0.5, 0.5)) # (0.5, 0.5, 0) for KITTI, (0.5, 0.5, 0.5) if manually annotated
         num_points_in_gt = indices.sum(0)
         num_ignored = len(annos['dimensions']) - num_obj
         num_points_in_gt = np.concatenate(
