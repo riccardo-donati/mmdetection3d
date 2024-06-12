@@ -140,7 +140,7 @@ Models:
   - Name: pointpillars_hydra_car
     Alias: pointpillars_hydra_car
     In Collection: PointPillars
-    Config:  /home/riccardo/iac_code/LidarObjDetection2/mmdetection3d/configs/pointpillars/pointpillars_hydra_car.py
+    Config:  configs/pointpillars/pointpillars_hydra_car.py
     Metadata:
       Training Data: KITTI
       Training Memory (GB): 5.5
