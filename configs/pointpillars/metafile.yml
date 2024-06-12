@@ -150,7 +150,7 @@ Models:
         Dataset: KITTI
         Metrics:
           AP: 64.07
-    Weights: /home/riccardo/iac_code/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hydra_car/iter_18000.pth
+    Weights: /home/riccardo/iac_code/mmdetection3d/work_dirs/pointpillars_hydra_car/iter_18000.pth
 
 
   - Name: pointpillars_hv_secfpn_8xb6-160e_kitti-3d-3class

@@ -10,7 +10,7 @@ model = dict(
             point_cloud_range= [-60, -19.84, -3, 79.52, 19.84, 3],
             voxel_size=voxel_size,
             max_voxels=(16000, 40000),
-            deterministic=False)),
+            )),
     voxel_encoder=dict(
         type='PillarFeatureNet',
         in_channels=4,
