@@ -90,10 +90,10 @@ model = dict(
         use_rotate_nms=True,
         nms_across_levels=False,
         nms_thr=0.01,
-        score_thr=0.1,
+        score_thr=0.4,
         min_bbox_size=0,
-        nms_pre=100,
-        max_num=50))
+        nms_pre=10,
+        max_num=10))
 
 ################## DATASET ##################
 
