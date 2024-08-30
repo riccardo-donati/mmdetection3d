@@ -152,6 +152,20 @@ Models:
           AP: 64.07
     Weights: /home/riccardo/LidarObjDetection2/mmdetection3d/work_dirs/pointpillars_hydris_v2_custom/iter_7000.pth
 
+  - Name: pointpillars_hydris_v3
+    Alias: pointpillars_hydris_v3
+    In Collection: PointPillars
+    Config: configs/pointpillars/custom/pointpillars_hydris_v3_custom.py
+    Metadata:
+      Training Data: KITTI
+      Training Memory (GB): 5.5
+      Training Resources: 8x V100 GPUs
+    Results:
+      - Task: 3D Object Detection
+        Dataset: KITTI
+        Metrics:
+          AP: 64.07
+    Weights: ~/code/polimove_nn_models/pointpillars_perception/iter_18000.pth
 
   - Name: pointpillars_hydra_car
     Alias: pointpillars_hydra_car
